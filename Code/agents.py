@@ -10,6 +10,7 @@ class Agent:
         self.foodInfra = fi
         self.energyInfra = ei
         self.commonInfra = ci
+        self.role = None
 
     def __hash__(self):
         return self.id_
@@ -114,7 +115,7 @@ class Agent:
         lots = min((self.commonInfra//CIPUEI)//ENERGYI_LOT_SIZE,
                    (self.money//MPUEI)//ENERGYI_LOOT_SZIE)
         units = lots*ENERGYI_LOT_SIZE
-        self.foodInfra += units
+        self.energyInfra += units
         self.commonInfra -= units*CIPUEI
         self.money -= units*MPUEI
         return lots
