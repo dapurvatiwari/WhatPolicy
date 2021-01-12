@@ -11,6 +11,7 @@ class Agent:
         self.energyInfra = ei
         self.commonInfra = ci
         self.role = None
+        self.isAlive = True
 
     def __hash__(self):
         return self.id_
@@ -46,7 +47,6 @@ class Agent:
 
     def buyFoodInfra(self, demand, agents):
         units = demand
-        assert units >= FOODI_LOT_SIZE
         units = (units//FOODI_LOT_SIZE)*FOODI_LOT_SIZE
         while units > 0:
             agent = rnd.choice(agents)
@@ -61,7 +61,6 @@ class Agent:
 
     def buyEnergyInfra(self, demand, agents):
         units = demand
-        assert units >= ENERGYI_LOT_SIZE
         units = (units//ENERGYI_LOT_SIZE)*ENERGYI_LOT_SIZE
         while units > 0:
             agent = rnd.choice(agents)
@@ -119,3 +118,34 @@ class Agent:
         self.commonInfra -= units*CIPUEI
         self.money -= units*MPUEI
         return lots
+
+
+    # DECISIONS
+
+    def decide:
+         """
+         Which action to take out of BUY, SELL and PRODUCE
+         If requirements == NOT_MET ---> produce/buy suitably
+         If requirements == MET ---> then 
+                 Cycle-1
+                 if basics < PREF --->  if infra is available ---> PRODUCE
+                                             if infra not available ---> BUY
+                 Cycle-2
+                 if money < PREF ---> SELL whatever in most excess (in value terms)
+                 Cycle-3
+                 if infra < PREF ---> PRODUCE/BUY
+                                       if !PRODUCE and !BUY ---> SELL basics
+         """
+        req_met = (self.food>=2) or (self.energy>=1 and self.food>=1)
+        if not req_met:
+            if self.food==0:
+                amount, flag = self.canProduceFood()
+                if flag:
+                    self.role=['producer', 'food', amount]
+                else:
+                    amount, flag = self.canBuyFood()
+                    self.role=['buyer', 'food', amount]
+
+
+
+

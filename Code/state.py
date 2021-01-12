@@ -27,7 +27,7 @@ class State:
         self.commonInfra -= units*CIPUFI
         self.money -= units*MPUFI
         return lots
-    
+
     def prodEnergyInfra(self, units=None):
         if(units is None):
             lots = min((self.commonInfra//CIPUEI)//ENERGYI_LOT_SIZE,
