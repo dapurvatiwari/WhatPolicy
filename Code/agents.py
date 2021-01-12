@@ -139,13 +139,36 @@ class Agent:
         req_met = (self.food>=2) or (self.energy>=1 and self.food>=1)
         if not req_met:
             if self.food==0:
-                amount, flag = self.canProduceFood()
-                if flag:
+                amount = self.canProduceFood()
+                if amount>=2:
                     self.role=['producer', 'food', amount]
                 else:
-                    amount, flag = self.canBuyFood()
-                    self.role=['buyer', 'food', amount]
+                    amount = self.canBuyFood()
+                    if amount>=2:
+                        self.role=['buyer', 'food', amount]
+                    else:
+                        self.isAlive = False
+            if self.food==1: # ==> energy==0; now prefer producing/buying 
+                             # atleast 1 energy
+                amount = self.canProduceEnergy()
+                if amount>=1:
+                    self.role=['producer', 'energy', amount]
+                else:
+                    amount = self.canBuyEnergy()
+                    if amount>=1:
+                        self.role=['buyer', 'energy', amount]
+                    else:
+                        self.isAlive=False
 
 
+
+
+
+
+
+                
+
+
+# def bestBasicsProduce
 
 
